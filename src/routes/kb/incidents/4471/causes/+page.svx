@@ -1,0 +1,52 @@
+---
+layout: runbook
+title: '#4471 · two causes, two tickets'
+owner: Blas J Romero
+status: open
+reviewed: 2026-10-30
+signature: Blas J Romero
+---
+
+<script>
+  import CauseTable from '#lib/kb/CauseTable.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+</script>
+
+The [#4471 page](/kb/incidents/4471) says one issue, one fix queued. The reports in it say two.
+They were merged on subject line ([decision 0001](/kb/decisions/0001-dedupe-by-subject)), and
+two different bugs write the same subject: "wrong day on the invite".
+
+<Callout kind="warn">
+Two causes, two fixes. Fixing the parser alone leaves the booking-v3 form bug open.
+</Callout>
+
+## What #4471 holds
+
+<CauseTable ticket={4471} />
+
+The table runs `causes.ts` at render time: one report per id, and the cause read from the
+tenant (its locale and booking form) and the channel. It does not use `intakeTag`, which is a
+guess from the reporter's browser and often disagrees with the tenant.
+
+## The two tickets
+
+- **`parser`** · [issue #1](https://github.com/jhonaatanromero/mega-s01e03-what-it-shows/issues/1).
+  The shared parser reads every date month first. Every tenant here writes the day first, so
+  "7 April" goes out as "4 July". It reaches people through the app, email and the form.
+- **`hint`** · [issue #2](https://github.com/jhonaatanromero/mega-s01e03-what-it-shows/issues/2).
+  Only through the booking-v3 form. The hint under its date field says `MM/DD/YYYY`, so people
+  type the month first, and the form reads the tenant's way, day first. Fixing the parser does
+  not fix this: the hint has to match the tenant's locale.
+
+The reports the desk read as a one-day move stay counted under `parser`, by tenant, as the
+desk's rule says. The table footnotes them.
+
+## For the desk
+
+- Before you merge into a big ticket, check the cause, not the subject:
+  [Try it](/kb/triage/dedupe) shows pairs with the same subject and different causes.
+- Count by report id. The ticket export repeats reports across pages.
+- The [triage page](/kb/triage/dedupe) has not been re-read since 2024. It still says subject alone.
+
+<RenderStamp {signature} />

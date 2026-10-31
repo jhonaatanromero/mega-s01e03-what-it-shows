@@ -2,7 +2,7 @@
 layout: runbook
 title: '#4471 · two causes, two tickets'
 owner: Blas J Romero
-status: open
+status: closed
 reviewed: 2026-10-30
 signature: v1.eyJzdWIiOiI1Mzk1IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTM0MDc5ODgsImV4cCI6MTc5MzQ5NDM4OH0.VUxthi4vdNpJrqytm7CuwD_9CVqlwM3Ufo923nTFQ3U
 ---
@@ -17,8 +17,9 @@ The [#4471 page](/kb/incidents/4471) says one issue, one fix queued. The reports
 They were merged on subject line ([decision 0001](/kb/decisions/0001-dedupe-by-subject)), and
 two different bugs write the same subject: "wrong day on the invite".
 
-<Callout kind="warn">
-Two causes, two fixes. Fixing the parser alone leaves the booking-v3 form bug open.
+<Callout>
+Closed. Two causes, two outcomes: engineering fixed the parser, and retired the booking-v3 form
+instead of fixing its hint.
 </Callout>
 
 ## What #4471 holds
@@ -31,13 +32,16 @@ guess from the reporter's browser and often disagrees with the tenant.
 
 ## The two tickets
 
-- **`parser`** · [issue #1](https://github.com/jhonaatanromero/mega-s01e03-what-it-shows/issues/1).
-  The shared parser reads every date month first. Every tenant here writes the day first, so
-  "7 April" goes out as "4 July". It reaches people through the app, email and the form.
-- **`hint`** · [issue #2](https://github.com/jhonaatanromero/mega-s01e03-what-it-shows/issues/2).
-  Only through the booking-v3 form. The hint under its date field says `MM/DD/YYYY`, so people
-  type the month first, and the form reads the tenant's way, day first. Fixing the parser does
-  not fix this: the hint has to match the tenant's locale.
+- **`parser`** · [issue #1](https://github.com/jhonaatanromero/mega-s01e03-what-it-shows/issues/1) · **fixed**.
+  The shared parser read every date month first. Every tenant here writes the day first, so
+  "7 April" went out as "4 July". It reached people through the app, email and the form.
+  Fixed by engineering: `fix(dates): parse dd/mm for eu locales`.
+- **`hint`** · [issue #2](https://github.com/jhonaatanromero/mega-s01e03-what-it-shows/issues/2) · **won't fix**.
+  Only through the booking-v3 form. The hint under its date field said `MM/DD/YYYY`, so people
+  typed the month first, and the form read the tenant's way, day first. The parser fix did not
+  touch this. Not fixed: the booking-v3 form was retired.
+
+Engineering closed #4471 on 5 October with both outcomes.
 
 The reports the desk read as a one-day move stay counted under `parser`, by tenant, as the
 desk's rule says. The table footnotes them.

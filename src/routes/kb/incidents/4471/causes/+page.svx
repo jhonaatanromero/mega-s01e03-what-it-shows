@@ -4,7 +4,7 @@ title: '#4471 · two causes, two tickets'
 owner: Blas J Romero
 status: open
 reviewed: 2026-10-30
-signature: Blas J Romero
+signature: v1.eyJzdWIiOiI1Mzk1IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTM0MDc5ODgsImV4cCI6MTc5MzQ5NDM4OH0.VUxthi4vdNpJrqytm7CuwD_9CVqlwM3Ufo923nTFQ3U
 ---
 
 <script>
